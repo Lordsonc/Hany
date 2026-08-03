@@ -4,6 +4,7 @@ import PromDress1 from "../assets/PromDress1.webp";
 import PromDress2 from "../assets/PromDress2.webp";
 import AsoEbi1 from "../assets/AsoEbi1.webp";
 import AsoEbi2 from "../assets/AsoEbi2.webp";
+import AsoEbi3 from "../assets/AsoEbi3.webp";
 import BridalGown from "../assets/BridalGown.webp";
 import BridalGown1 from "../assets/BridalGown1.webp";
 import CustomCouture1 from "../assets/CustomCouture1.webp";
@@ -32,7 +33,8 @@ export const ServicesData = [
     price: "From $350",
     image: AsoEbi1,
     gallery: [
-      AsoEbi2
+      AsoEbi2,
+      AsoEbi3
     ],
   },
   {
