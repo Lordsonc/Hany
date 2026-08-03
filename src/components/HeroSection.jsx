@@ -1,6 +1,6 @@
 import React from 'react';
 import { Download } from 'lucide-react';
-import ProfilePicture from '../assets/ProfilePicture.jpeg';
+import ProfilePicture from '../assets/ProfilePicture.webp';
 
 const HeroSection = () => {
   // Direct client to WhatsApp

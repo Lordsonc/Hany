@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { ArrowLeft, X, ChevronRight, Maximize2, Eye } from 'lucide-react';
-import PromDress1 from "../assets/PromDress1.jpeg";
-import PromDress2 from "../assets/PromDress2.jpeg";
-import AsoEbi from "../assets/AsoEbi.jpeg";
-import BridalGown from "../assets/BridalGown.jpeg";
-import BridalGown1 from "../assets/BridalGown1.jpeg";
+import PromDress1 from "../assets/PromDress1.webp";
+import PromDress2 from "../assets/PromDress2.webp";
+import AsoEbi1 from "../assets/AsoEbi1.webp";
+import AsoEbi2 from "../assets/AsoEbi2.webp";
+import BridalGown from "../assets/BridalGown.webp";
+import BridalGown1 from "../assets/BridalGown1.webp";
+import CustomCouture1 from "../assets/CustomCouture1.webp";
+import CustomCouture2 from "../assets/CustomCouture2.webp";
+import CustomCouture3 from "../assets/CustomCouture3.webp";
+import CustomCouture4 from "../assets/CustomCouture4.webp";
+import CustomCouture5 from "../assets/CustomCouture5.webp";
 
 export const ServicesData = [
   {
@@ -24,9 +30,9 @@ export const ServicesData = [
     description:
       "Stand out at every celebration with custom-designed group and individual attire blending traditional heritage with modern cuts.",
     price: "From $350",
-    image: AsoEbi,
+    image: AsoEbi1,
     gallery: [
-      AsoEbi
+      AsoEbi2
     ],
   },
   {
@@ -35,12 +41,12 @@ export const ServicesData = [
     description:
       "Tailor-made luxury garments built specifically to your unique measurements, aesthetic preferences and style.",
     price: "From $500",
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000",
+    image: CustomCouture1,
     gallery: [
-      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&q=80&w=1000",
+      CustomCouture2,
+      CustomCouture3,
+      CustomCouture4,
+      CustomCouture5,
     ],
   },
   {

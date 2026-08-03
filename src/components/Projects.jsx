@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Eye, X } from 'lucide-react';
 import ProjectBox from './ProjectBox';
 
-import Bridal from '../assets/Bridal.jpeg';
-import AsoEbiGown from '../assets/AsoEbiGown.jpeg';
-import CustomCouture from "../assets/CustomCouture.jpeg";
-import PromDress from "../assets/PromDress.jpeg";
+import Bridal from '../assets/Bridal.webp';
+import AsoEbiGown from '../assets/AsoEbiGown.webp';
+import CustomCouture from "../assets/CustomCouture.webp";
+import PromDress from "../assets/PromDress.webp";
 
 export const ProjectData = [
   {
