@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowLeft, X, ChevronRight, Maximize2, Eye } from 'lucide-react';
+import { ArrowLeft, X, Maximize2, Eye } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+
 import PromDress1 from "../assets/PromDress1.webp";
 import PromDress2 from "../assets/PromDress2.webp";
 import AsoEbi1 from "../assets/AsoEbi1.webp";
@@ -82,6 +84,28 @@ const ServiceBox = () => {
 
   return (
     <div className="w-full">
+      {/* Dynamic SEO Tag Injection */}
+      <Helmet>
+        <title>
+          {selectedService 
+            ? `${selectedService.name} | Hany Luxury Fashion` 
+            : "Hany | Custom Bridal, Aso-Ebi & Luxury Fashion"}
+        </title>
+        <meta
+          name="description"
+          content={
+            selectedService 
+              ? selectedService.description 
+              : "Explore bespoke luxury garments, tailored bridal gowns, and custom couture outfits by Hany."
+          }
+        />
+        <meta property="og:url" content="https://hany-pi.vercel.app/" />
+        <meta 
+          property="og:image" 
+          content={selectedService ? selectedService.image : "https://hany-pi.vercel.app/og-cover.jpg"} 
+        />
+      </Helmet>
+
       {/* 2x2 Portfolio Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 w-full my-auto">
         {ServicesData.map((service, index) => (
