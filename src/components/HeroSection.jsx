@@ -57,7 +57,7 @@ const HeroSection = () => {
                 onClick={handleHireMe}
                 className="px-8 py-3.5 rounded-full bg-linear-to-r from-[#F5D061] via-[#c08c2a] to-[#D4AF37] hover:scale-105 transition-all duration-300 ease-in-out text-[#3b1820] font-bold w-full sm:w-auto text-center shadow-lg shadow-black/30 cursor-pointer"
               >
-                Hire Me
+                Book Me
               </button>
 
               {/* Button 2: Download Resume (Commented out)
