@@ -56,7 +56,7 @@ export const ServicesData = [
       Corset1,
       Corset2,
       Corset3,
-      Corset4
+      Corset4,
     ],
   },
   {
