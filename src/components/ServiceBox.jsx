@@ -14,6 +14,10 @@ import CustomCouture2 from "../assets/CustomCouture2.webp";
 import CustomCouture3 from "../assets/CustomCouture3.webp";
 import CustomCouture4 from "../assets/CustomCouture4.webp";
 import CustomCouture5 from "../assets/CustomCouture5.webp";
+import Corset1 from "../assets/Corset1.webp";
+import Corset2 from "../assets/Corset2.webp";
+import Corset3 from "../assets/Corset3.webp";
+import Corset4 from "../assets/Corse41.webp";
 
 export const ServicesData = [
   {
@@ -24,6 +28,7 @@ export const ServicesData = [
     price: "From $1,200",
     image: BridalGown,
     gallery: [
+      BridalGown,
       BridalGown1,
     ],
   },
@@ -35,8 +40,23 @@ export const ServicesData = [
     price: "From $350",
     image: AsoEbi1,
     gallery: [
+      AsoEbi1,
       AsoEbi2,
       AsoEbi3
+    ],
+  },
+  {
+    id: 'Corset-dress',
+    name: "Elegant Corset Dresses",
+    description:
+      "Expertly crafted corset dresses designed to accentuate your silhouette with structured bodices, flawless tailoring, premium fabrics and a perfect custom fit for weddings, parties, red carpet events and special occasions.",
+    price: "From $450",
+    image: Corset1,
+    gallery: [
+      Corset1,
+      Corset2,
+      Corset3,
+      Corset4
     ],
   },
   {
@@ -47,6 +67,7 @@ export const ServicesData = [
     price: "From $500",
     image: CustomCouture1,
     gallery: [
+      CustomCouture1,
       CustomCouture2,
       CustomCouture3,
       CustomCouture4,
@@ -61,6 +82,7 @@ export const ServicesData = [
     price: "From $450",
     image: PromDress1,
     gallery: [
+      PromDress1,
       PromDress2
     ],
   },
@@ -96,7 +118,7 @@ const ServiceBox = () => {
           content={
             selectedService 
               ? selectedService.description 
-              : "Explore bespoke luxury garments, tailored bridal gowns, and custom couture outfits by Hany."
+              : "Explore bespoke bridal gowns, elegant corset dresses, sophisticated Aso-Ebi outfits, luxury couture, prom dresses and custom-made outfits by Hany."
           }
         />
         <meta property="og:url" content="https://hany-pi.vercel.app/" />
@@ -106,13 +128,13 @@ const ServiceBox = () => {
         />
       </Helmet>
 
-      {/* 2x2 Portfolio Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 w-full my-auto">
+      {/* 2-Column Grid with Centered Last Item */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 w-full my-auto items-center">
         {ServicesData.map((service, index) => (
           <div
-            key={index}
+            key={service.id || index}
             onClick={() => handleOpenGallery(service)}
-            className="group relative h-96 sm:h-112 w-full rounded-2xl overflow-hidden border border-[#E5A93C]/40 bg-[#3b1820]/40 backdrop-blur-md shadow-2xl cursor-pointer transition-all duration-500 hover:scale-[1.01] hover:border-[#E5A93C] hover:shadow-2xl hover:shadow-[#E5A93C]/20"
+            className="group relative h-96 sm:h-112 w-full rounded-2xl overflow-hidden border border-[#E5A93C]/40 bg-[#3b1820]/40 backdrop-blur-md shadow-2xl cursor-pointer transition-all duration-500 hover:scale-[1.01] hover:border-[#E5A93C] hover:shadow-2xl hover:shadow-[#E5A93C]/20 last:lg:col-span-2 last:lg:w-1/2 last:lg:mx-auto"
           >
             {/* Background Image */}
             <img
@@ -122,7 +144,7 @@ const ServiceBox = () => {
               className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
             />
 
-            {/* Gradient Overlay using theme palette */}
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-linear-to-t from-[#2c0d14] via-[#3b1820]/80 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300" />
 
             {/* Floating Content Area */}

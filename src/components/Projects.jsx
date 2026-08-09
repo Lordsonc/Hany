@@ -6,6 +6,7 @@ import Bridal from '../assets/Bridal.webp';
 import AsoEbiGown from '../assets/AsoEbiGown.webp';
 import CustomCouture from "../assets/CustomCouture.webp";
 import PromDress from "../assets/PromDress.webp";
+import Corset3 from "../assets/Corset3.webp";
 
 export const ProjectData = [
   {
@@ -37,7 +38,7 @@ const ProjectData2 = [
   },
   {
     id: 'Prom-gown',
-    title: "Glamorous Evening Ball Gown",
+    title: "Glamorous Prom Gown",
     description:
       "Show-stopping red carpet silhouette created with structured corset boning, floor-sweeping train and hand-stitched detailing.",
     image: PromDress,
@@ -45,7 +46,18 @@ const ProjectData2 = [
   }
 ];
 
-const allEmbeddedProjects = [...ProjectData, ...ProjectData2];
+const ProjectData3 = [
+  {
+    id: "Corset Dress",
+    title: "Luxury Corset Dresses",
+    description:
+      "Expertly crafted corset dresses designed to accentuate your silhouette with structured bodices, flawless tailoring, premium fabrics and a perfect custom fit for weddings, parties, red carpet events and special occasions.",
+    image: Corset3,
+    category: "Corset",
+  }
+];
+
+const allEmbeddedProjects = [...ProjectData, ...ProjectData2, ...ProjectData3];
 
 const Projects = ({ ProjectData: passedData }) => {
   const projectsToDisplay = passedData && passedData.length > 0 ? passedData : allEmbeddedProjects;
@@ -80,7 +92,7 @@ const Projects = ({ ProjectData: passedData }) => {
           </p>
         </div>
 
-        {/* Project Grid Container with onViewImage handler */}
+        {/* Project Grid Container */}
         <div className="w-full my-4">
           <ProjectBox 
             ProjectData={projectsToDisplay} 
