@@ -17,7 +17,7 @@ import CustomCouture5 from "../assets/CustomCouture5.webp";
 import Corset1 from "../assets/Corset1.webp";
 import Corset2 from "../assets/Corset2.webp";
 import Corset3 from "../assets/Corset3.webp";
-import Corset4 from "../assets/Corse4.webp";
+import Corset4 from "../assets/Corset4.webp";
 
 export const ServicesData = [
   {
