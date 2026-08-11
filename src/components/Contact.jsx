@@ -56,7 +56,7 @@ const Contact = () => {
                 <MdFacebook />
               </a>
               <a 
-                href="https://www.instagram.com/hany_lawrence_designs?igsh=N2FxNmE3MHc5ZXVt" 
+                href="https://www.instagram.com/hany_lawrence_designs" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -66,7 +66,7 @@ const Contact = () => {
                 <AiFillInstagram />
               </a>
               <a 
-                href="https://www.tiktok.com/@hany_lawrence_designs?_r=1&_t=ZS-98UyBDWxj8e" 
+                href="https://www.tiktok.com/@hany_lawrence_designs" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 aria-label="TikTok"
