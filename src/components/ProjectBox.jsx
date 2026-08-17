@@ -37,8 +37,9 @@ const ProjectBox = ({ ProjectData, onViewImage }) => {
             {/* View Image Action */}
             <div className="pt-3 border-t border-[#E5A93C]/30 flex items-center justify-end">
               <button
+                type="button"
                 onClick={() => onViewImage(project.image)}
-                className="px-5 py-2.5 rounded-full bg-linear-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] hover:scale-105 text-[#3b1820] text-xs sm:text-sm font-bold transition-all duration-300 ease-in-out shadow-md cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-full bg-linear-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] hover:scale-105 active:scale-95 text-[#3b1820] text-xs sm:text-sm font-bold transition-all duration-300 ease-in-out shadow-md cursor-pointer flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#F5D061]"
               >
                 <Eye size={15} />
                 <span>View Full Image</span>

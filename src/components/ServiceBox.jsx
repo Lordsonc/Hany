@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowLeft, X, Maximize2, Eye } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { ArrowLeft, X, Maximize2, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 import PromDress1 from "../assets/PromDress1.webp";
@@ -92,21 +92,82 @@ const ServiceBox = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [activeImage, setActiveImage] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const imageContainerRef = useRef(null);
 
-  const handleOpenGallery = (service) => {
+  const handleOpenGallery = (e, service) => {
     setSelectedService(service);
     setActiveImage(service.image);
+
+    const targetElement = e.currentTarget;
+    if (targetElement) {
+      const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - 100;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
-  const handleBackToPortfolio = () => {
+  const handleBackToPortfolio = useCallback(() => {
     setSelectedService(null);
     setActiveImage(null);
     setIsFullscreen(false);
+  }, []);
+
+  const handleNextImage = useCallback(() => {
+    if (!selectedService) return;
+    const currentIndex = selectedService.gallery.indexOf(activeImage);
+    const nextIndex = (currentIndex + 1) % selectedService.gallery.length;
+    setActiveImage(selectedService.gallery[nextIndex]);
+  }, [selectedService, activeImage]);
+
+  const handlePrevImage = useCallback(() => {
+    if (!selectedService) return;
+    const currentIndex = selectedService.gallery.indexOf(activeImage);
+    const prevIndex = (currentIndex - 1 + selectedService.gallery.length) % selectedService.gallery.length;
+    setActiveImage(selectedService.gallery[prevIndex]);
+  }, [selectedService, activeImage]);
+
+  const handleSelectThumbnail = (imgUrl) => {
+    setActiveImage(imgUrl);
+    if (imageContainerRef.current) {
+      imageContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
+
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isFullscreen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (isFullscreen) {
+          setIsFullscreen(false);
+        } else if (selectedService) {
+          handleBackToPortfolio();
+        }
+      } else if (selectedService && !isFullscreen) {
+        if (e.key === 'ArrowRight') handleNextImage();
+        if (e.key === 'ArrowLeft') handlePrevImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedService, isFullscreen, handleBackToPortfolio, handleNextImage, handlePrevImage]);
 
   return (
     <div className="w-full">
-      {/* Dynamic SEO Tag Injection */}
       <Helmet>
         <title>
           {selectedService 
@@ -128,15 +189,13 @@ const ServiceBox = () => {
         />
       </Helmet>
 
-      {/* 2-Column Grid with Centered Last Item */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 w-full my-auto items-center">
         {ServicesData.map((service, index) => (
           <div
             key={service.id || index}
-            onClick={() => handleOpenGallery(service)}
+            onClick={(e) => handleOpenGallery(e, service)}
             className="group relative h-96 sm:h-112 w-full rounded-2xl overflow-hidden border border-[#E5A93C]/40 bg-[#3b1820]/40 backdrop-blur-md shadow-2xl cursor-pointer transition-all duration-500 hover:scale-[1.01] hover:border-[#E5A93C] hover:shadow-2xl hover:shadow-[#E5A93C]/20 last:lg:col-span-2 last:lg:w-1/2 last:lg:mx-auto"
           >
-            {/* Background Image */}
             <img
               src={service.image}
               alt={service.name}
@@ -144,10 +203,8 @@ const ServiceBox = () => {
               className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
             />
 
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-linear-to-t from-[#2c0d14] via-[#3b1820]/80 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2c0d14] via-[#3b1820]/80 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300" />
 
-            {/* Floating Content Area */}
             <div className="relative z-10 flex flex-col justify-end h-full p-6 sm:p-8 text-left">
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-[#F5D061] transition-colors duration-300">
                 {service.name}
@@ -157,19 +214,17 @@ const ServiceBox = () => {
                 {service.description}
               </p>
 
-              {/* Bottom Actions Bar */}
               <div className="pt-3 border-t border-[#E5A93C]/30 flex items-center justify-between gap-2">
                 <span className="text-xs uppercase tracking-widest text-[#F5D061] font-semibold">
                   {service.price}
                 </span>
 
-                {/* View More Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleOpenGallery(service);
+                    handleOpenGallery(e, service);
                   }}
-                  className="px-5 py-2.5 rounded-full bg-linear-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] hover:scale-105 text-[#3b1820] text-xs sm:text-sm font-bold transition-all duration-300 ease-in-out shadow-md shadow-black/40 cursor-pointer flex items-center gap-1.5"
+                  className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] hover:scale-105 text-[#3b1820] text-xs sm:text-sm font-bold transition-all duration-300 ease-in-out shadow-md shadow-black/40 cursor-pointer flex items-center gap-1.5"
                 >
                   <Eye size={15} />
                   <span>View More</span>
@@ -180,70 +235,86 @@ const ServiceBox = () => {
         ))}
       </div>
 
-      {/* LIGHTBOX MODAL */}
       {selectedService && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md transition-opacity duration-300">
-          <div className="relative w-full max-w-4xl max-h-[92vh] bg-[#3b1820]/95 border border-[#E5A93C]/50 rounded-2xl overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col">
-            
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#E5A93C]/30 mb-4 shrink-0">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 transition-all duration-300 overflow-y-auto"
+          onClick={handleBackToPortfolio}
+        >
+          <div 
+            className="relative w-full max-w-3xl bg-[#2c0d14] border border-[#E5A93C]/50 rounded-2xl p-3 sm:p-4 shadow-2xl flex flex-col items-center my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full flex items-center justify-between pb-2 border-b border-[#E5A93C]/30 mb-2">
               <button
                 onClick={handleBackToPortfolio}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-linear-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] text-[#3b1820] text-xs sm:text-sm font-bold hover:scale-105 transition-all cursor-pointer shadow-md"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#F5D061] via-[#E5A93C] to-[#D4AF37] text-[#3b1820] text-xs font-bold hover:scale-105 transition-all cursor-pointer shadow-md"
               >
-                <ArrowLeft size={16} />
-                <span>Back to Portfolio</span>
+                <ArrowLeft size={14} />
+                <span>Back</span>
               </button>
+
+              <div className="text-center px-2">
+                <h3 className="text-sm sm:text-base font-bold text-white truncate max-w-[200px] sm:max-w-xs">
+                  {selectedService.name}
+                </h3>
+              </div>
 
               <button
                 onClick={handleBackToPortfolio}
-                className="p-2 rounded-full text-pink-100/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 rounded-full text-pink-100/70 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
             </div>
 
-            {/* Tight Fitting Image Stage */}
-            <div className="relative w-full flex justify-center items-center rounded-xl overflow-hidden border border-[#E5A93C]/40 mb-4 bg-[#2c0d14] group">
+            <div 
+              ref={imageContainerRef}
+              className="relative w-full flex justify-center items-center rounded-xl overflow-hidden bg-black/60 border border-[#E5A93C]/30 group"
+            >
               <img
                 src={activeImage}
                 alt={selectedService.name}
-                className="w-auto max-w-full max-h-[55vh] object-contain transition-all duration-300 cursor-zoom-in"
+                className="w-full max-h-[75vh] object-contain transition-all duration-300 cursor-zoom-in"
                 onClick={() => setIsFullscreen(true)}
               />
-              
+
+              {selectedService.gallery.length > 1 && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/70 text-[#F5D061] hover:bg-black transition-colors cursor-pointer shadow-lg"
+                    title="Previous"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/70 text-[#F5D061] hover:bg-black transition-colors cursor-pointer shadow-lg"
+                    title="Next"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </>
+              )}
+
               <button 
                 onClick={() => setIsFullscreen(true)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-black/60 text-[#F5D061] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/90 cursor-pointer"
-                title="Expand full screen"
+                className="absolute top-3 right-3 p-2 rounded-full bg-black/70 text-[#F5D061] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black cursor-pointer shadow-lg"
+                title="Expand Fullscreen"
               >
-                <Maximize2 size={18} />
+                <Maximize2 size={16} />
               </button>
             </div>
 
-            {/* Service Details */}
-            <div className="mb-4 shrink-0">
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
-                {selectedService.name}
-              </h3>
-              <p className="text-xs sm:text-sm text-pink-100/80 leading-relaxed">
-                {selectedService.description}
-              </p>
-            </div>
-
-            {/* Scrollable Gallery Thumbnails */}
-            <div className="w-full pt-3 border-t border-[#E5A93C]/20 shrink-0">
-              <h4 className="text-xs uppercase tracking-widest text-[#F5D061] font-semibold mb-2">
-                Click photo to display fully:
-              </h4>
-              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#E5A93C]/40">
+            {selectedService.gallery.length > 1 && (
+              <div className="w-full pt-3 mt-2 border-t border-[#E5A93C]/20 flex justify-center gap-2 overflow-x-auto">
                 {selectedService.gallery.map((imgUrl, subIdx) => (
                   <button
                     key={subIdx}
-                    onClick={() => setActiveImage(imgUrl)}
-                    className={`relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all cursor-pointer bg-black/40 ${
+                    onClick={() => handleSelectThumbnail(imgUrl)}
+                    className={`shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                       activeImage === imgUrl
-                        ? 'border-[#F5D061] scale-105 shadow-md shadow-[#E5A93C]/40'
+                        ? 'border-[#F5D061] scale-105 ring-2 ring-[#F5D061]/50'
                         : 'border-[#E5A93C]/30 opacity-60 hover:opacity-100'
                     }`}
                   >
@@ -255,13 +326,11 @@ const ServiceBox = () => {
                   </button>
                 ))}
               </div>
-            </div>
-
+            )}
           </div>
         </div>
       )}
 
-      {/* FULLSCREEN OVERLAY */}
       {isFullscreen && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 cursor-zoom-out"
@@ -269,15 +338,15 @@ const ServiceBox = () => {
         >
           <button 
             onClick={() => setIsFullscreen(false)}
-            className="absolute top-5 right-5 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+            className="absolute top-5 right-5 p-2.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
           >
-            <X size={28} />
+            <X size={24} />
           </button>
           
           <img
             src={activeImage}
             alt="Full display"
-            className="max-w-full max-h-full object-contain rounded-lg"
+            className="max-w-full max-h-full object-contain rounded-md"
           />
         </div>
       )}

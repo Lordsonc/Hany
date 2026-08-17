@@ -109,30 +109,31 @@ const Projects = ({ ProjectData: passedData }) => {
 
       </div>
 
-      {/* FULL VIEW IMAGE LIGHTBOX MODAL */}
+      {/* COMPACT LIGHTBOX MODAL */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out animate-fadeIn"
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 cursor-pointer transition-opacity duration-300"
           onClick={() => setSelectedImage(null)}
         >
-          {/* Close Button */}
-          <button 
-            onClick={() => setSelectedImage(null)}
-            className="absolute top-6 right-6 p-3 rounded-full bg-black/60 border border-[#E5A93C]/40 text-[#F5D061] hover:bg-[#E5A93C] hover:text-[#3b1820] transition-all cursor-pointer shadow-lg z-10"
-            title="Close preview"
-          >
-            <X size={24} />
-          </button>
-
-          {/* Full Screen Image Stage */}
+          {/* Image Container - Wraps tightly around the image */}
           <div 
-            className="relative max-w-5xl max-h-[90vh] flex items-center justify-center overflow-hidden rounded-2xl border border-[#E5A93C]/40 bg-[#2c0d14]/80 shadow-2xl p-2"
+            className="relative inline-block border border-[#E5A93C]/40 rounded-xl overflow-hidden shadow-2xl bg-black/40"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Floating Close Button */}
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-3 right-3 p-2 rounded-full bg-black/60 border border-[#E5A93C]/40 text-[#F5D061] hover:bg-[#E5A93C] hover:text-[#3b1820] transition-all cursor-pointer shadow-lg z-10"
+              title="Close preview"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Pop-Up Image */}
             <img
               src={selectedImage}
               alt="Full View"
-              className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-xl"
+              className="block w-auto h-auto max-w-[90vw] max-h-[90vh] object-contain rounded-xl"
             />
           </div>
         </div>
